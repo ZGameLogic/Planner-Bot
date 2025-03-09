@@ -8,6 +8,7 @@
 import React from 'react';
 import type {PropsWithChildren} from 'react';
 import {
+  Button,
   ScrollView,
   StatusBar,
   StyleSheet,
@@ -103,6 +104,9 @@ function App(): React.JSX.Element {
             Read the docs to discover what to do next:
           </Section>
           <LearnMoreLinks />
+          <Button title={'Ben'} onPress={() => {
+            console.log('Ben pressed a button');
+          }}/>
         </View>
       </ScrollView>
     </View>
