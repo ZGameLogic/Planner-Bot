@@ -1,6 +1,7 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
-  StatusBar, TextComponent,
+  Linking,
+  StatusBar,
   useColorScheme,
   View,
 } from 'react-native';
@@ -9,23 +10,20 @@ import {
   Colors,
 } from 'react-native/Libraries/NewAppScreen';
 import {ModelProvider} from './src/hooks/ModelContext.tsx';
-import TestComponent from "./src/components/TestComponent.tsx";
+import Login from './src/components/Login.tsx';
 
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+    flex: 1,
   };
 
   return (
     <ModelProvider>
       <View style={backgroundStyle}>
-        <TestComponent />
-        <StatusBar
-          barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-          backgroundColor={backgroundStyle.backgroundColor}
-        />
+        <Login/>
       </View>
     </ModelProvider>
   );
