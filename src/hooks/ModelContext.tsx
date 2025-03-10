@@ -1,5 +1,6 @@
 import {createContext, PropsWithChildren, useContext, useEffect, useState} from 'react';
 import {ModelContextType} from '../types/APITypes.ts';
+import {registerCode} from '../services/Bot Service.ts';
 
 const ModelContext = createContext<ModelContextType>({
   userData: {},
@@ -10,7 +11,7 @@ const ModelContext = createContext<ModelContextType>({
 export const ModelProvider = ({ children } : PropsWithChildren) => {
   const [userData, setUserData] = useState({});
   useEffect(() => {
-    console.log('Ben it started');
+    registerCode('', '');
   }, []);
 
   function print(){
