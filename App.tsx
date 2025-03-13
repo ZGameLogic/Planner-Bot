@@ -1,29 +1,13 @@
 import React from 'react';
-import {
-  useColorScheme,
-  View,
-} from 'react-native';
 
-import {
-  Colors,
-} from 'react-native/Libraries/NewAppScreen';
-import {ModelProvider} from './src/hooks/ModelContext.tsx';
-import Login from './src/components/Login.tsx';
+import Model from './src/components/Model.tsx';
+import Main from './src/components/Main.tsx';
 
 function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-    flex: 1,
-  };
-
   return (
-    <ModelProvider>
-      <View style={backgroundStyle}>
-        <Login/>
-      </View>
-    </ModelProvider>
+    <Model>
+      <Main/>
+    </Model>
   );
 }
 

@@ -1,14 +1,21 @@
 import React from 'react';
-import {DISCORD_AUTH_URL} from '@env';
+import { DISCORD_AUTH_URL } from '@env';
 import { WebView } from 'react-native-webview';
-import {View} from 'react-native';
+import { Modal } from 'react-native';
+import { useAuth } from '../hooks/AuthContext.tsx';
 
 function Login(): React.JSX.Element {
+  const { isAuthenticated } = useAuth();
   function handleNavigationChange(event: any) {
     console.log(event);
   }
 
-  return <View style={{ flex: 1 }}>
+  return <Modal
+    animationType="slide"
+    transparent={true}
+    visible={!isAuthenticated}
+    // onRequestClose={() => setModalVisible(false)}
+  >
     <WebView
       source={{ uri: DISCORD_AUTH_URL }}
       onNavigationStateChange={handleNavigationChange}
@@ -23,11 +30,9 @@ function Login(): React.JSX.Element {
         console.error('HTTP error: ', nativeEvent.statusCode);
       }}
       startInLoadingState
-      incognito // Optional: Prevents session persistence
       thirdPartyCookiesEnabled
       sharedCookiesEnabled
     />
-  </View>;
+  </Modal>;
 }
-
 export default Login;
