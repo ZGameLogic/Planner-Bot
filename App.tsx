@@ -1,7 +1,5 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {
-  Linking,
-  StatusBar,
   useColorScheme,
   View,
 } from 'react-native';
