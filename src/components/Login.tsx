@@ -5,11 +5,15 @@ import { Modal } from 'react-native';
 import { useAuth } from '../hooks/AuthContext.tsx';
 
 function Login(): React.JSX.Element {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, login } = useAuth();
   function handleNavigationChange(event: any) {
-    console.log(event);
+    const code = event.url.match(/code=([^&]+)/)?.[1];
+    if(code){
+      login(code);
+    }
   }
 
+  //?code=hBTGq7Q8DDd1yQ0e8aOyAb1f0MOCVG
   return <Modal
     animationType="slide"
     transparent={true}

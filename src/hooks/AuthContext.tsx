@@ -28,8 +28,10 @@ export const AuthProvider = ({ children } : PropsWithChildren) => {
 
   async function login(loginCode: String) {
     const deviceId = await DeviceInfo.getUniqueId();
+    console.log('trying to login with code', loginCode);
     registerCode(loginCode, deviceId).then(response => response.json())
       .then(json => {
+        console.log(json.body);
         setUserData(json.body);
       }).catch(error => {
         console.error(error);
