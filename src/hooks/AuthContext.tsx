@@ -7,6 +7,7 @@ export type ModelContextType = {
   isAuthenticated: boolean,
   login: Function,
   logout: Function,
+  isAuthing: boolean,
 }
 
 const AuthContext = createContext<ModelContextType>({
@@ -14,10 +15,12 @@ const AuthContext = createContext<ModelContextType>({
   isAuthenticated: false,
   logout: () => {},
   login: () => {},
+  isAuthing: false,
 });
 
 export const AuthProvider = ({ children } : PropsWithChildren) => {
   const [userData, setUserData] = useState<object | undefined>(undefined);
+  const [isAuthing, setIsAuthing] = useState(false);
   const isAuthenticated = useMemo(() => {
     return !!userData;
   }, [userData]);
@@ -28,18 +31,20 @@ export const AuthProvider = ({ children } : PropsWithChildren) => {
 
   async function login(loginCode: String) {
     const deviceId = await DeviceInfo.getUniqueId();
-    console.log('trying to login with code', loginCode);
-    registerCode(loginCode, deviceId).then(response => response.json())
+    setIsAuthing(true);
+    registerCode(loginCode, deviceId)
+      .then(response => response.json())
       .then(json => {
-        console.log(json.body);
-        setUserData(json.body);
+        setUserData(json);
+        setIsAuthing(false);
       }).catch(error => {
+        setIsAuthing(false);
         console.error(error);
       });
   }
 
   return (
-    <AuthContext.Provider value={{userData, logout, login, isAuthenticated}}>
+    <AuthContext.Provider value={{userData, logout, login, isAuthenticated, isAuthing}}>
       {children}
     </AuthContext.Provider>
   );

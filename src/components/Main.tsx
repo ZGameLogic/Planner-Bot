@@ -5,7 +5,7 @@ import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {useAuth} from '../hooks/AuthContext.tsx';
 
 function Main(): React.JSX.Element {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, isAuthing } = useAuth();
   const isDarkMode = useColorScheme() === 'dark';
 
   const backgroundStyle = {
@@ -15,7 +15,7 @@ function Main(): React.JSX.Element {
 
   return <SafeAreaView>
     <View style={backgroundStyle}>
-      {!isAuthenticated && <Login/>}
+      {!isAuthenticated || isAuthing && <Login/>}
     </View>
   </SafeAreaView>;
 }
