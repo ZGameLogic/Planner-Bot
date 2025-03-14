@@ -15,7 +15,7 @@ function Main(): React.JSX.Element {
 
   return <SafeAreaView>
     <View style={backgroundStyle}>
-      {!isAuthenticated || isAuthing && <Login/>}
+      {(!isAuthenticated || !isAuthing) && <Login/>}
     </View>
   </SafeAreaView>;
 }

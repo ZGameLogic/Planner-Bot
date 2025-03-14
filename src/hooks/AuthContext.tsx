@@ -3,7 +3,7 @@ import {registerCode} from '../services/Bot Service.ts';
 import DeviceInfo from 'react-native-device-info';
 
 export type ModelContextType = {
-  userData: object | undefined,
+  userData: DiscordAuth | undefined,
   isAuthenticated: boolean,
   login: Function,
   logout: Function,
@@ -11,7 +11,7 @@ export type ModelContextType = {
 }
 
 const AuthContext = createContext<ModelContextType>({
-  userData: {},
+  userData: undefined,
   isAuthenticated: false,
   logout: () => {},
   login: () => {},
@@ -19,7 +19,7 @@ const AuthContext = createContext<ModelContextType>({
 });
 
 export const AuthProvider = ({ children } : PropsWithChildren) => {
-  const [userData, setUserData] = useState<object | undefined>(undefined);
+  const [userData, setUserData] = useState<DiscordAuth | undefined>(undefined);
   const [isAuthing, setIsAuthing] = useState(false);
   const isAuthenticated = useMemo(() => {
     return !!userData;
@@ -35,6 +35,7 @@ export const AuthProvider = ({ children } : PropsWithChildren) => {
     registerCode(loginCode, deviceId)
       .then(response => response.json())
       .then(json => {
+        console.log(json);
         setUserData(json);
         setIsAuthing(false);
       }).catch(error => {
