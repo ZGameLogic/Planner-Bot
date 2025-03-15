@@ -1,9 +1,9 @@
 import React from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
-import { styles } from '../styles/styles.ts';
+import { headerStyles } from '../styles/headerStyles.ts';
 import FontAwesome6 from '@react-native-vector-icons/fontawesome6';
 import DiscordProfileIcon from './DiscordProfileIcon.tsx';
-import {useAuth} from '../hooks/AuthContext.tsx';
+import { useAuth } from '../hooks/AuthContext.tsx';
 
 interface HeaderProps {
   route: string
@@ -17,10 +17,10 @@ function Header({ route }: HeaderProps): React.JSX.Element {
   }
 
   return (
-    <View style={styles.header}>
-      <Text style={styles.headerText}>{route}</Text>
-      <View style={styles.headerButtons}>
-        <TouchableOpacity onPress={handlePress} style={styles.headerButton}>
+    <View style={headerStyles.header}>
+      <Text style={headerStyles.headerText}>{route}</Text>
+      <View style={headerStyles.headerButtons}>
+        <TouchableOpacity onPress={handlePress} style={headerStyles.headerButton}>
           <DiscordProfileIcon
             size={35}
             avatar={userData?.user.avatar ?? ''}

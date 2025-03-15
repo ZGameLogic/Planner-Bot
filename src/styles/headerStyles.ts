@@ -1,4 +1,4 @@
-const styles = {
+const headerStyles = {
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -28,4 +28,4 @@ const styles = {
   },
 };
 
-export { styles };
+export { headerStyles };
