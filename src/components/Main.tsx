@@ -1,23 +1,30 @@
 import React from 'react';
 import Login from './Login.tsx';
-import {SafeAreaView, useColorScheme, View} from 'react-native';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
+import {ScrollView, Text, View} from 'react-native';
 import {useAuth} from '../hooks/AuthContext.tsx';
 
 function Main(): React.JSX.Element {
-  const { isAuthenticated, isAuthing } = useAuth();
-  const isDarkMode = useColorScheme() === 'dark';
+  const { isAuthenticated, isAuthing, userData } = useAuth();
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-    flex: 1,
-  };
-
-  return <SafeAreaView>
-    <View style={backgroundStyle}>
-      {(!isAuthenticated || !isAuthing) && <Login/>}
-    </View>
-  </SafeAreaView>;
+  return <View style={{flex: 1}}>
+    {(!isAuthenticated || !isAuthing) && <Login/>}
+    <ScrollView>
+      <Text>gyat</Text>
+      <Text>{userData?.user.global_name}</Text>
+      <Text>gyat</Text>
+      <Text>{userData?.user.global_name}</Text>
+      <Text>gyat</Text>
+      <Text>{userData?.user.global_name}</Text>
+      <Text>gyat</Text>
+      <Text>{userData?.user.global_name}</Text>
+      <Text>gyat</Text>
+      <Text>{userData?.user.global_name}</Text>
+      <Text>gyat</Text>
+      <Text>{userData?.user.global_name}</Text>
+      <Text>gyat</Text>
+      <Text>{userData?.user.global_name}</Text>
+    </ScrollView>
+  </View>;
 }
 
 export default Main;

@@ -11,4 +11,15 @@ function registerCode(code: String, uuid: String): Promise<Response>{
   });
 }
 
-export { registerCode };
+function relogin(userId: string, token: string, device: string): Promise<Response>{
+  const url = `${BOT_BASE_URL}/auth/relogin?userId=${userId}&token=${token}&device=${device}`;
+
+  return fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+}
+
+export { registerCode, relogin };

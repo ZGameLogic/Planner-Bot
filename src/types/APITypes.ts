@@ -12,7 +12,7 @@ type User = {
   username: string
   global_name: string
   avatar: string
-  id: number
+  id: string
 }
 
 type DiscordAuth = {
