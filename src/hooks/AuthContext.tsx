@@ -39,7 +39,7 @@ export const AuthProvider = ({ children } : PropsWithChildren) => {
           .then(response => response.text())
           .then(text => {
             text = text.replace(/("[^"]*"\s*:\s*)(\d{18,})/g, '$1"$2"');
-            const json = JSON.parse(text);
+            const json: DiscordAuth = JSON.parse(text);
             setUserData(json);
             setIsAuthing(false);
           }).catch(() => {
@@ -70,7 +70,7 @@ export const AuthProvider = ({ children } : PropsWithChildren) => {
       .then(response => response.text())
       .then(text => {
         text = text.replace(/("[^"]*"\s*:\s*)(\d{18,})/g, '$1"$2"');
-        const json = JSON.parse(text);
+        const json: DiscordAuth = JSON.parse(text);
         setUserData(json);
         setIsAuthing(false);
       }).catch(error => {
