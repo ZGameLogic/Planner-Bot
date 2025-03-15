@@ -9,17 +9,22 @@ const styles = {
     paddingVertical: 10,
     borderBottomWidth: 1,
     borderBottomColor: '#ddd',
-  },
-  fullscreen: {
-    flex: 1,
-  },
-  headerComponent: {
-    paddingLeft: 10,
+    position: 'relative',
   },
   headerText: {
     flex: 1,
     textAlign: 'center',
     fontSize: 20,
+    zIndex: 1,
+  },
+  headerButtons: {
+    flexDirection: 'row',
+    position: 'absolute',
+    right: 10,
+    zIndex: 2,
+  },
+  headerButton: {
+    paddingRight: 10,
   },
 };
 

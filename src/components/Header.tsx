@@ -13,33 +13,31 @@ function Header({ route }: HeaderProps): React.JSX.Element {
   const { userData } = useAuth();
 
   function handlePress() {
-    console.log('jjjjjjjjj');
+    console.log('Button pressed');
   }
 
-  console.log(route);
-
-  // @ts-ignore
-  return <View style={styles.header}>
-    <Text style={styles.headerText}>{route}</Text>
-    <View style={styles.headerComponent}>
-      <TouchableOpacity onPress={handlePress}>
-        <DiscordProfileIcon
-          size={35}
-          avatar={userData?.user.avatar ?? ''}
-          id={userData?.user.id ?? ''}
-        />
-      </TouchableOpacity>
+  return (
+    <View style={styles.header}>
+      <Text style={styles.headerText}>{route}</Text>
+      <View style={styles.headerButtons}>
+        <TouchableOpacity onPress={handlePress} style={styles.headerButton}>
+          <DiscordProfileIcon
+            size={35}
+            avatar={userData?.user.avatar ?? ''}
+            id={userData?.user.id ?? ''}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={handlePress}>
+          <FontAwesome6
+            name="calendar-plus"
+            iconStyle="solid"
+            size={30}
+            color={'purple'}
+          />
+        </TouchableOpacity>
+      </View>
     </View>
-    <TouchableOpacity onPress={handlePress}>
-      <FontAwesome6
-        style={styles.headerComponent}
-        name="calendar-plus"
-        iconStyle="solid"
-        size={30}
-        color={'purple'}
-      />
-    </TouchableOpacity>
-  </View>;
+  );
 }
 
 export default Header;
