@@ -1,31 +1,33 @@
-const headerStyles = {
+import { StyleSheet } from 'react-native';
+
+const headerStyles = StyleSheet.create({
   header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: 'row' as 'row',
+    justifyContent: 'space-between' as 'space-between',
+    alignItems: 'center' as 'center',
     paddingRight: 10,
     paddingLeft: 10,
-    backgroundColor: '#f8f8f8',
-    paddingVertical: 10,
+    backgroundColor: '#fff',
+    paddingVertical: 15,
     borderBottomWidth: 1,
-    borderBottomColor: '#ddd',
-    position: 'relative',
+    borderBottomColor: '#ccc',
+    position: 'relative' as 'relative',
   },
   headerText: {
     flex: 1,
-    textAlign: 'center',
+    textAlign: 'center' as 'center',
     fontSize: 20,
     zIndex: 1,
   },
   headerButtons: {
-    flexDirection: 'row',
-    position: 'absolute',
+    flexDirection: 'row' as 'row',
+    position: 'absolute' as 'absolute',
     right: 10,
     zIndex: 2,
   },
   headerButton: {
-    paddingRight: 10,
+    marginLeft: 10,
   },
-};
+});
 
 export { headerStyles };
