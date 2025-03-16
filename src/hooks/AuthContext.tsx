@@ -25,29 +25,38 @@ export const AuthProvider = ({ children } : PropsWithChildren) => {
   const isAuthenticated = useMemo(() => {
     return !!userData;
   }, [userData]);
+  const [deviceId, setDeviceId] = useState<string | undefined>(undefined);
+
+  useEffect(() => {
+    const fetchDeviceId = async () => {
+      const id = await DeviceInfo.getUniqueId();
+      setDeviceId(id);
+    };
+
+    fetchDeviceId();
+  }, []);
 
   // try to login with the token if it exists
   useEffect(() => {
+    if(!deviceId) { return; }
     getGenericPassword().then(result => {
       if(!result) {
         setIsAuthing(false);
         return;
       }
-      DeviceInfo.getUniqueId().then(deviceId => {
-        const { username, password } = result;
-        relogin(username, password, deviceId)
-          .then(response => response.text())
-          .then(text => {
-            text = text.replace(/("[^"]*"\s*:\s*)(\d{18,})/g, '$1"$2"');
-            const json: DiscordAuth = JSON.parse(text);
-            setUserData(json);
-            setIsAuthing(false);
-          }).catch(() => {
-            setIsAuthing(false);
-          }).finally(() => setIsAuthing(false));
-      });
+      const { username, password } = result;
+      relogin(username, password, deviceId)
+        .then(response => response.text())
+        .then(text => {
+          text = text.replace(/("[^"]*"\s*:\s*)(\d{18,})/g, '$1"$2"');
+          const json: DiscordAuth = JSON.parse(text);
+          setUserData(json);
+          setIsAuthing(false);
+        }).catch(() => {
+          setIsAuthing(false);
+        }).finally(() => setIsAuthing(false));
     });
-  }, []);
+  }, [deviceId]);
 
   // set and remove token when the state is updated
   useEffect(() => {
@@ -64,7 +73,7 @@ export const AuthProvider = ({ children } : PropsWithChildren) => {
   }
 
   async function login(loginCode: String) {
-    const deviceId = await DeviceInfo.getUniqueId();
+    if(!deviceId) { return; }
     setIsAuthing(true);
     registerCode(loginCode, deviceId)
       .then(response => response.text())

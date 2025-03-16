@@ -1,7 +1,8 @@
 import React from 'react';
 import Login from './Login.tsx';
-import {SafeAreaView, View} from 'react-native';
-import {useAuth} from '../hooks/AuthContext.tsx';
+import { View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useAuth } from '../hooks/AuthContext.tsx';
 import styles from 'react-native-webview/lib/WebView.styles';
 import Header from './Header.tsx';
 import {NavigationContainer} from '@react-navigation/native';
@@ -15,8 +16,8 @@ function Main(): React.JSX.Element {
 
   return (
     <View style={{ flex: 1 }}>
+      <SafeAreaView style={[styles.container]}>
       {(!isAuthenticated || !isAuthing) && <Login />}
-      <SafeAreaView style={styles.container}>
         <NavigationContainer>
           <Stack.Navigator
             screenOptions={({ route }) => ({
