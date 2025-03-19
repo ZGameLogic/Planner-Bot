@@ -2,8 +2,9 @@ import { createContext, PropsWithChildren, useContext, useEffect, useMemo, useSt
 import {registerCode, relogin} from '../services/Bot Service.ts';
 import DeviceInfo from 'react-native-device-info';
 import { setGenericPassword, resetGenericPassword, getGenericPassword } from 'react-native-keychain';
+import {useModel} from './ModelContext.tsx';
 
-export type ModelContextType = {
+export type AuthContextType = {
   userData: DiscordAuth | undefined,
   isAuthenticated: boolean,
   login: Function,
@@ -11,7 +12,7 @@ export type ModelContextType = {
   isAuthing: boolean,
 }
 
-const AuthContext = createContext<ModelContextType>({
+const AuthContext = createContext<AuthContextType>({
   userData: undefined,
   isAuthenticated: false,
   logout: () => {},
@@ -26,6 +27,7 @@ export const AuthProvider = ({ children } : PropsWithChildren) => {
     return !!userData;
   }, [userData]);
   const [deviceId, setDeviceId] = useState<string | undefined>(undefined);
+  const {serverConnection, setServerConnection} = useModel();
 
   useEffect(() => {
     const fetchDeviceId = async () => {
@@ -38,7 +40,7 @@ export const AuthProvider = ({ children } : PropsWithChildren) => {
 
   // try to login with the token if it exists
   useEffect(() => {
-    if(!deviceId) { return; }
+    if(!deviceId || !serverConnection) { return; }
     getGenericPassword().then(result => {
       if(!result) {
         setIsAuthing(false);
@@ -54,9 +56,10 @@ export const AuthProvider = ({ children } : PropsWithChildren) => {
           setIsAuthing(false);
         }).catch(() => {
           setIsAuthing(false);
+          setServerConnection(false);
         }).finally(() => setIsAuthing(false));
     });
-  }, [deviceId]);
+  }, [deviceId, serverConnection, setServerConnection]);
 
   // set and remove token when the state is updated
   useEffect(() => {
@@ -73,7 +76,7 @@ export const AuthProvider = ({ children } : PropsWithChildren) => {
   }
 
   async function login(loginCode: String) {
-    if(!deviceId) { return; }
+    if(!deviceId || !serverConnection) { return; }
     setIsAuthing(true);
     registerCode(loginCode, deviceId)
       .then(response => response.text())
@@ -84,6 +87,7 @@ export const AuthProvider = ({ children } : PropsWithChildren) => {
         setIsAuthing(false);
       }).catch(error => {
         setIsAuthing(false);
+        setServerConnection(false);
         console.error(error);
       });
   }
