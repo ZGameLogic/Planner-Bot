@@ -27,6 +27,7 @@ const headerStyles = StyleSheet.create({
   },
   headerButton: {
     marginLeft: 10,
+    paddingRight: 10,
   },
 });
 
