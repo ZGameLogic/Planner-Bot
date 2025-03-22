@@ -22,6 +22,7 @@ const AuthContext = createContext<AuthContextType>({
 export const AuthProvider = ({ children } : PropsWithChildren) => {
   const [userData, setUserData] = useState<DiscordAuth | undefined>(undefined);
   const [isAuthing, setIsAuthing] = useState(true);
+  const [initLoginFailed, setInitLoginFailed] = useState(false);
   const isAuthenticated = useMemo(() => {
     return !!userData;
   }, [userData]);
@@ -53,6 +54,7 @@ export const AuthProvider = ({ children } : PropsWithChildren) => {
           setUserData(json);
           setIsAuthing(false);
         }).catch(() => {
+          setInitLoginFailed(true);
           setIsAuthing(false);
         }).finally(() => setIsAuthing(false));
     });
@@ -62,11 +64,14 @@ export const AuthProvider = ({ children } : PropsWithChildren) => {
   useEffect(() => {
     if(userData) {
       setGenericPassword(String(userData.user.id), userData.token.access_token)
+        .then(result => console.log(result))
         .catch(error => console.error(error));
     } else {
-      resetGenericPassword();
+      if(initLoginFailed) {
+        resetGenericPassword();
+      }
     }
-  },[userData]);
+  },[userData, initLoginFailed]);
 
   function logout(){
     setUserData(undefined);
