@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "android": "set ENVFILE=.env.local && react-native run-android",
+    "android": "set ENVFILE=.env.android && react-native run-android",
     "ios": "ENVFILE=.env.local react-native run-ios --simulator=\"iPhone 16 Pro\" --terminal=Terminal",
     "lint": "eslint .",
     "start": "react-native start",

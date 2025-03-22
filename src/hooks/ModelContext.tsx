@@ -1,20 +1,13 @@
-import {createContext, PropsWithChildren, useContext, useState} from 'react';
+import {createContext, PropsWithChildren, useContext} from 'react';
 
-export type ModelContextType = {
-  serverConnection: boolean,
-  setServerConnection: Function,
-}
+export type ModelContextType = {}
 
-const ModelContext = createContext<ModelContextType>({
-  serverConnection: true,
-  setServerConnection: () => {},
-});
+const ModelContext = createContext<ModelContextType>({});
 
 export const ModelProvider = ({ children } : PropsWithChildren) => {
-  const [serverConnection, setServerConnection] = useState(true);
 
   return (
-    <ModelContext.Provider value={{serverConnection, setServerConnection}}>
+    <ModelContext.Provider value={{}}>
       {children}
     </ModelContext.Provider>
   );

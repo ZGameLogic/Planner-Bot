@@ -1,13 +1,16 @@
 import React, {PropsWithChildren} from 'react';
 import {AuthProvider} from '../hooks/AuthContext.tsx';
+import {ConnectionProvider} from '../hooks/ConnectionContext.tsx';
 import {ModelProvider} from '../hooks/ModelContext.tsx';
 
 function Model({ children }: PropsWithChildren): React.JSX.Element {
-  return <ModelProvider>
+  return <ConnectionProvider>
     <AuthProvider>
-      {children}
+      <ModelProvider>
+        {children}
+      </ModelProvider>
     </AuthProvider>
-  </ModelProvider>;
+  </ConnectionProvider>;
 }
 
 export default Model;

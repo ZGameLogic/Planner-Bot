@@ -3,9 +3,11 @@ import { DISCORD_AUTH_URL } from '@env';
 import { WebView } from 'react-native-webview';
 import { Modal } from 'react-native';
 import { useAuth } from '../hooks/AuthContext.tsx';
+import { useConnection } from "../hooks/ConnectionContext.tsx";
 
 function Login(): React.JSX.Element {
-  const { isAuthenticated, isAuthing, login } = useAuth();
+  const { serverConnection } = useConnection();
+  const { isAuthing, login, userData } = useAuth();
 
   function handleNavigationChange(event: any) {
     const code = event.url.match(/code=([^&]+)/)?.[1];
@@ -17,7 +19,7 @@ function Login(): React.JSX.Element {
   return <Modal
     animationType="slide"
     transparent={true}
-    visible={!isAuthenticated}
+    visible={!isAuthing && userData === undefined && (serverConnection !== undefined && serverConnection)}
   >
     <WebView
       source={{ uri: DISCORD_AUTH_URL }}

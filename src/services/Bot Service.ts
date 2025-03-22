@@ -22,4 +22,10 @@ function relogin(userId: string, token: string, device: string): Promise<Respons
   });
 }
 
-export { registerCode, relogin };
+function healthCheck(): Promise<Response>{
+  const url = `${BOT_BASE_URL}/health`;
+
+  return fetch(url, { method: 'GET' });
+}
+
+export { registerCode, relogin, healthCheck };

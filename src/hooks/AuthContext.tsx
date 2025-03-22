@@ -1,11 +1,11 @@
-import { createContext, PropsWithChildren, useContext, useEffect, useMemo, useState } from 'react';
+import { createContext, PropsWithChildren, useContext, useEffect, useState } from 'react';
 import {registerCode, relogin} from '../services/Bot Service.ts';
 import DeviceInfo from 'react-native-device-info';
 import { setGenericPassword, resetGenericPassword, getGenericPassword } from 'react-native-keychain';
+import { useConnection } from './ConnectionContext.tsx';
 
 export type AuthContextType = {
   userData: DiscordAuth | undefined,
-  isAuthenticated: boolean,
   login: Function,
   logout: Function,
   isAuthing: boolean,
@@ -13,7 +13,6 @@ export type AuthContextType = {
 
 const AuthContext = createContext<AuthContextType>({
   userData: undefined,
-  isAuthenticated: false,
   logout: () => {},
   login: () => {},
   isAuthing: false,
@@ -23,9 +22,7 @@ export const AuthProvider = ({ children } : PropsWithChildren) => {
   const [userData, setUserData] = useState<DiscordAuth | undefined>(undefined);
   const [isAuthing, setIsAuthing] = useState(true);
   const [initLoginFailed, setInitLoginFailed] = useState(false);
-  const isAuthenticated = useMemo(() => {
-    return !!userData;
-  }, [userData]);
+  const { serverConnection } = useConnection();
   const [deviceId, setDeviceId] = useState<string | undefined>(undefined);
 
   useEffect(() => {
@@ -39,6 +36,7 @@ export const AuthProvider = ({ children } : PropsWithChildren) => {
 
   // try to login with the token if it exists
   useEffect(() => {
+    if(!serverConnection) { return; }
     if(!deviceId) { return; }
     getGenericPassword().then(result => {
       if(!result) {
@@ -58,20 +56,18 @@ export const AuthProvider = ({ children } : PropsWithChildren) => {
           setIsAuthing(false);
         }).finally(() => setIsAuthing(false));
     });
-  }, [deviceId]);
+  }, [deviceId, serverConnection]);
 
   // set and remove token when the state is updated
   useEffect(() => {
     if(userData) {
       setGenericPassword(String(userData.user.id), userData.token.access_token)
-        .then(result => console.log(result))
-        .catch(error => console.error(error));
     } else {
       if(initLoginFailed) {
         resetGenericPassword();
       }
     }
-  },[userData, initLoginFailed]);
+  }, [userData, initLoginFailed, serverConnection]);
 
   function logout(){
     setUserData(undefined);
@@ -94,7 +90,7 @@ export const AuthProvider = ({ children } : PropsWithChildren) => {
   }
 
   return (
-    <AuthContext.Provider value={{userData, logout, login, isAuthenticated, isAuthing}}>
+    <AuthContext.Provider value={{userData, logout, login, isAuthing}}>
       {children}
     </AuthContext.Provider>
   );
