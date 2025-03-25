@@ -19,3 +19,19 @@ type DiscordAuth = {
   token: Token
   user: User
 }
+
+type EventUser = {
+  id: bigint
+  status: boolean
+  isNeedFillIn: boolean
+}
+
+type Plan = {
+  id: bigint
+  title: string
+  notes: string
+  startTime: bigint
+  count: number
+  authorId: bigint
+  users: [EventUser]
+}

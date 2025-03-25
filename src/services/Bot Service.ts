@@ -1,5 +1,18 @@
 import { BOT_BASE_URL } from '@env';
 
+function getUserEvents(token: string, device: string): Promise<Response> {
+  const url = `${BOT_BASE_URL}/plans`
+
+  return fetch(url, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'token': token,
+      'device': device
+    }
+  })
+}
+
 function registerCode(code: String, uuid: String): Promise<Response>{
   const url = `${BOT_BASE_URL}/auth/login?code=${code}&device=${uuid}`;
 
@@ -28,4 +41,4 @@ function healthCheck(): Promise<Response>{
   return fetch(url, { method: 'GET' });
 }
 
-export { registerCode, relogin, healthCheck };
+export { registerCode, relogin, healthCheck, getUserEvents };

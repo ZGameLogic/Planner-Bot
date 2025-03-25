@@ -9,6 +9,7 @@ export type AuthContextType = {
   login: Function,
   logout: Function,
   isAuthing: boolean,
+  deviceId: string | undefined,
 }
 
 const AuthContext = createContext<AuthContextType>({
@@ -16,6 +17,7 @@ const AuthContext = createContext<AuthContextType>({
   logout: () => {},
   login: () => {},
   isAuthing: false,
+  deviceId: undefined,
 });
 
 export const AuthProvider = ({ children } : PropsWithChildren) => {
@@ -90,7 +92,7 @@ export const AuthProvider = ({ children } : PropsWithChildren) => {
   }
 
   return (
-    <AuthContext.Provider value={{userData, logout, login, isAuthing}}>
+    <AuthContext.Provider value={{userData, logout, login, isAuthing, deviceId}}>
       {children}
     </AuthContext.Provider>
   );
