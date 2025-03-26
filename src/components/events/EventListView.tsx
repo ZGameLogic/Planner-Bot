@@ -1,10 +1,11 @@
 import React, {useCallback, useMemo, useState} from 'react';
-import {ScrollView, Text, TouchableOpacity, View} from 'react-native';
+import {Appearance, ScrollView, Text, TouchableOpacity, View} from 'react-native';
 import Card from '../Card.tsx';
 import DiscordProfileIcon from '../DiscordProfileIcon.tsx';
 import { useModel } from '../../hooks/ModelContext.tsx';
 import {eventStyles} from '../../styles/eventStyles.ts';
 import FontAwesome6 from '@react-native-vector-icons/fontawesome6';
+import {statusToColor} from "../../helpers/colors-helper.ts";
 
 type EventListViewProps = {
   plan: Plan
@@ -23,28 +24,32 @@ function EventListView({plan}: EventListViewProps): React.JSX.Element {
     setExpanded(prevState => !prevState);
   };
 
+  const colorScheme = Appearance.getColorScheme();
+  const styles = eventStyles(colorScheme);
+
   const EventUsers = useCallback((): React.JSX.Element => {
     const users = plan.invitees;
 
     if (expanded) {
       return <>
-        <View style={eventStyles.eventHStack}>
+        <View style={styles.eventHStack}>
           <FontAwesome6
             name="address-card"
             iconStyle="regular"
             size={20}
             color={'purple'}
           />
-          <Text style={eventStyles.eventText}>Invitees</Text>
+          <Text style={styles.eventText}>Invitees</Text>
         </View>
         {users.map(user => {
           const dUser = getUserById(user["user id"]);
-          return <View key={dUser.id} style={eventStyles.eventHStack}>
+
+          return <View key={dUser.id} style={styles.eventHStack}>
             <DiscordProfileIcon size={20} avatar={dUser.avatar} id={dUser.id} />
-            <Text style={eventStyles.eventText}>{dUser.username}</Text>
+            <Text style={[styles.eventText, {color: statusToColor(user.status, colorScheme === 'dark')}]}>{dUser.username}</Text>
           </View>
         })}
-        <TouchableOpacity onPress={toggleExpanded} style={eventStyles.eventChevron}>
+        <TouchableOpacity onPress={toggleExpanded} style={styles.eventChevron}>
           <FontAwesome6
             name="chevron-up"
             iconStyle="solid"
@@ -58,12 +63,12 @@ function EventListView({plan}: EventListViewProps): React.JSX.Element {
         <ScrollView horizontal={true}>
           {users.map(user => {
             const dUser = getUserById(user["user id"]);
-            return <View key={dUser.id} style={eventStyles.eventUserIcon}>
+            return <View key={dUser.id} style={styles.eventUserIcon}>
               <DiscordProfileIcon size={20} avatar={dUser.avatar} id={dUser.id} />
             </View>
           })}
         </ScrollView>
-        <TouchableOpacity onPress={toggleExpanded} style={eventStyles.eventChevron}>
+        <TouchableOpacity onPress={toggleExpanded} style={styles.eventChevron}>
           <FontAwesome6
             name="chevron-down"
             iconStyle="solid"
@@ -75,35 +80,37 @@ function EventListView({plan}: EventListViewProps): React.JSX.Element {
     }
   }, [expanded, plan]);
 
-  return <Card>
-    <Text style={eventStyles.eventTitle}>{plan.title}</Text>
-    <View style={eventStyles.eventHStack}>
-      <DiscordProfileIcon
-        size={20}
-        avatar={author.avatar}
-        id={author.id}
-      />
-      <Text style={eventStyles.eventText}>{author.username}</Text>
-    </View>
-    <View style={eventStyles.eventHStack}>
-      <FontAwesome6
-        name="clock"
-        iconStyle="regular"
-        size={20}
-        color={'purple'}
-      />
-      <Text style={eventStyles.eventText}>{plan["start time"] ?? 'Poll'}</Text>
-    </View>
-    {plan.notes && <View style={eventStyles.eventHStack}>
-        <FontAwesome6
-            name="note-sticky"
-            iconStyle="regular"
-            size={20}
-            color={'purple'}
+  return <Card darkMode={colorScheme === 'dark'}>
+    <View style={styles.eventCard}>
+      <Text style={styles.eventTitle}>{plan.title}</Text>
+      <View style={styles.eventHStack}>
+        <DiscordProfileIcon
+          size={20}
+          avatar={author.avatar}
+          id={author.id}
         />
-        <Text style={eventStyles.eventText}>{plan.notes}</Text>
-    </View>}
-    <EventUsers/>
+        <Text style={styles.eventText}>{author.username}</Text>
+      </View>
+      <View style={styles.eventHStack}>
+        <FontAwesome6
+          name="clock"
+          iconStyle="regular"
+          size={20}
+          color={'purple'}
+        />
+        <Text style={styles.eventText}>{plan["start time"] ?? 'Poll'}</Text>
+      </View>
+      {plan.notes && <View style={styles.eventHStack}>
+          <FontAwesome6
+              name="note-sticky"
+              iconStyle="regular"
+              size={20}
+              color={'purple'}
+          />
+          <Text style={styles.eventText}>{plan.notes}</Text>
+      </View>}
+      <EventUsers/>
+    </View>
   </Card>;
 }
 

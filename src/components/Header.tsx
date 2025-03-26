@@ -1,9 +1,10 @@
 import React from 'react';
-import {Text, TouchableOpacity, View} from 'react-native';
+import {Appearance, Text, TouchableOpacity, View} from 'react-native';
 import { headerStyles } from '../styles/headerStyles.ts';
 import FontAwesome6 from '@react-native-vector-icons/fontawesome6';
 import DiscordProfileIcon from './DiscordProfileIcon.tsx';
 import { useAuth } from '../hooks/AuthContext.tsx';
+import {eventStyles} from "../styles/eventStyles.ts";
 
 interface HeaderProps {
   route: string
@@ -12,15 +13,18 @@ interface HeaderProps {
 function Header({ route }: HeaderProps): React.JSX.Element {
   const { userData } = useAuth();
 
+  const colorScheme = Appearance.getColorScheme();
+  const styles = headerStyles(colorScheme);
+
   function handlePress() {
     console.log('Button pressed');
   }
 
   return (
-    <View style={headerStyles.header}>
-      <Text style={headerStyles.headerText}>{route}</Text>
-      <View style={headerStyles.headerButtons}>
-        <TouchableOpacity onPress={handlePress} style={headerStyles.headerButton}>
+    <View style={styles.header}>
+      <Text style={styles.headerText}>{route}</Text>
+      <View style={styles.headerButtons}>
+        <TouchableOpacity onPress={handlePress} style={styles.headerButton}>
           <DiscordProfileIcon
             size={35}
             avatar={userData?.user.avatar ?? ''}

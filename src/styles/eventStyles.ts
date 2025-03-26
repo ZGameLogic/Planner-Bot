@@ -1,10 +1,12 @@
 import { StyleSheet } from 'react-native';
 
-const eventStyles = StyleSheet.create({
+const eventStyles = (colorScheme: 'light' | 'dark' | undefined | null) => StyleSheet.create({
   eventTitle: {
+    color: colorScheme === 'dark'? '#fff': '#000',
     fontSize: 25
   },
   eventText: {
+    color: colorScheme === 'dark'? '#fff': '#000',
     paddingLeft: 5,
     paddingRight: 5
   },
@@ -22,6 +24,9 @@ const eventStyles = StyleSheet.create({
   eventChevron: {
     alignItems: 'center',
     justifyContent: 'center'
+  },
+  eventCard: {
+    backgroundColor: colorScheme === 'dark' ? '#313535' : '#7e7777',
   }
 });
 

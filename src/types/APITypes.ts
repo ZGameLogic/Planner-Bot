@@ -28,7 +28,7 @@ type DiscordAuth = {
 
 type EventUser = {
   'user id': bigint
-  status: boolean
+  status: 'DECIDING' | 'ACCEPTED' | 'MAYBED' | 'WAITLISTED' | 'FILLINED' | 'DECLINED'
   'needs fill in': boolean
 }
 
