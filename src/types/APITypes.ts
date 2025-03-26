@@ -15,23 +15,29 @@ type User = {
   id: string
 }
 
+type DiscordUser = {
+  username: string
+  avatar: string
+  id: bigint
+}
+
 type DiscordAuth = {
   token: Token
   user: User
 }
 
 type EventUser = {
-  id: bigint
+  'user id': bigint
   status: boolean
-  isNeedFillIn: boolean
+  'needs fill in': boolean
 }
 
 type Plan = {
   id: bigint
   title: string
   notes: string
-  startTime: bigint
+  'start time': string
   count: number
-  authorId: bigint
-  users: [EventUser]
+  'author id': bigint
+  invitees: [EventUser]
 }

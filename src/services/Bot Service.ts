@@ -1,5 +1,11 @@
 import { BOT_BASE_URL } from '@env';
 
+function getDiscordUsers(): Promise<Response> {
+  const url = `${BOT_BASE_URL}/plan/users`;
+
+  return fetch(url, {method: 'GET'});
+}
+
 function getUserEvents(token: string, device: string): Promise<Response> {
   const url = `${BOT_BASE_URL}/plans`
 
@@ -13,7 +19,7 @@ function getUserEvents(token: string, device: string): Promise<Response> {
   })
 }
 
-function registerCode(code: String, uuid: String): Promise<Response>{
+function registerCode(code: String, uuid: String): Promise<Response> {
   const url = `${BOT_BASE_URL}/auth/login?code=${code}&device=${uuid}`;
 
   return fetch(url, {
@@ -41,4 +47,4 @@ function healthCheck(): Promise<Response>{
   return fetch(url, { method: 'GET' });
 }
 
-export { registerCode, relogin, healthCheck, getUserEvents };
+export { registerCode, relogin, healthCheck, getUserEvents, getDiscordUsers };

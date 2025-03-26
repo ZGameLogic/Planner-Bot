@@ -3,6 +3,7 @@ import {registerCode, relogin} from '../services/Bot Service.ts';
 import DeviceInfo from 'react-native-device-info';
 import { setGenericPassword, resetGenericPassword, getGenericPassword } from 'react-native-keychain';
 import { useConnection } from './ConnectionContext.tsx';
+import {bodyToJson} from "../helpers/format-helper.ts";
 
 export type AuthContextType = {
   userData: DiscordAuth | undefined,
@@ -47,11 +48,9 @@ export const AuthProvider = ({ children } : PropsWithChildren) => {
       }
       const { username, password } = result;
       relogin(username, password, deviceId)
-        .then(response => response.text())
-        .then(text => {
-          text = text.replace(/("[^"]*"\s*:\s*)(\d{18,})/g, '$1"$2"');
-          const json: DiscordAuth = JSON.parse(text);
-          setUserData(json);
+        .then(response => bodyToJson<DiscordAuth>(response))
+        .then(authData => {
+          setUserData(authData);
           setIsAuthing(false);
         }).catch(() => {
           setInitLoginFailed(true);
@@ -79,11 +78,9 @@ export const AuthProvider = ({ children } : PropsWithChildren) => {
     if(!deviceId) { return; }
     setIsAuthing(true);
     registerCode(loginCode, deviceId)
-      .then(response => response.text())
-      .then(text => {
-        text = text.replace(/("[^"]*"\s*:\s*)(\d{18,})/g, '$1"$2"');
-        const json: DiscordAuth = JSON.parse(text);
-        setUserData(json);
+      .then(response => bodyToJson<DiscordAuth>(response))
+      .then(authData => {
+        setUserData(authData);
         setIsAuthing(false);
       }).catch(error => {
         setIsAuthing(false);
