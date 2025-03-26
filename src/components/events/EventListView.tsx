@@ -1,4 +1,4 @@
-import React, {useMemo, useState} from 'react';
+import React, {useCallback, useMemo, useState} from 'react';
 import {ScrollView, Text, TouchableOpacity, View} from 'react-native';
 import Card from '../Card.tsx';
 import DiscordProfileIcon from '../DiscordProfileIcon.tsx';
@@ -23,10 +23,10 @@ function EventListView({plan}: EventListViewProps): React.JSX.Element {
     setExpanded(prevState => !prevState);
   };
 
-  const EventUsers = (): React.JSX.Element => {
+  const EventUsers = useCallback((): React.JSX.Element => {
     const users = plan.invitees;
 
-    if(expanded){
+    if (expanded) {
       return <>
         <View style={eventStyles.eventHStack}>
           <FontAwesome6
@@ -40,7 +40,7 @@ function EventListView({plan}: EventListViewProps): React.JSX.Element {
         {users.map(user => {
           const dUser = getUserById(user["user id"]);
           return <View key={dUser.id} style={eventStyles.eventHStack}>
-            <DiscordProfileIcon size={20} avatar={dUser.avatar} id={dUser.id}/>
+            <DiscordProfileIcon size={20} avatar={dUser.avatar} id={dUser.id} />
             <Text style={eventStyles.eventText}>{dUser.username}</Text>
           </View>
         })}
@@ -59,7 +59,7 @@ function EventListView({plan}: EventListViewProps): React.JSX.Element {
           {users.map(user => {
             const dUser = getUserById(user["user id"]);
             return <View key={dUser.id} style={eventStyles.eventUserIcon}>
-              <DiscordProfileIcon size={20} avatar={dUser.avatar} id={dUser.id}/>
+              <DiscordProfileIcon size={20} avatar={dUser.avatar} id={dUser.id} />
             </View>
           })}
         </ScrollView>
@@ -73,7 +73,7 @@ function EventListView({plan}: EventListViewProps): React.JSX.Element {
         </TouchableOpacity>
       </>
     }
-  };
+  }, [expanded, plan]);
 
   return <Card>
     <Text style={eventStyles.eventTitle}>{plan.title}</Text>

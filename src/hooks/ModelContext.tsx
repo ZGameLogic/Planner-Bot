@@ -7,12 +7,14 @@ export type ModelContextType = {
   plans: Plan[]
   discordUsers: DiscordUser[]
   getUserById: Function
+  refresh: Function
 }
 
 const ModelContext = createContext<ModelContextType>({
   plans: [],
   discordUsers: [],
-  getUserById: () => {}
+  getUserById: () => {},
+  refresh: () => {}
 });
 
 export const ModelProvider = ({ children } : PropsWithChildren) => {
@@ -24,22 +26,30 @@ export const ModelProvider = ({ children } : PropsWithChildren) => {
     return discordUsers.filter(user => user.id === id)[0];
   }
 
-  useEffect(() => {
-    if(!userData || !deviceId){
+  async function refresh(): Promise<void> {
+    if (!userData || !deviceId) {
       setPlans([]);
-      return;
+      return Promise.resolve();
     }
-    getUserEvents(userData.token.access_token, deviceId)
-      .then(response => bodyToJson<Plan[]>(response))
-      .then(plans => setPlans(plans));
-    getDiscordUsers()
-      .then(response => bodyToJson<DiscordUser[]>(response))
-      .then(users => setDiscordUsers(users));
+    await Promise.all([
+      getUserEvents(userData.token.access_token, deviceId)
+        .then(response => bodyToJson<Plan[]>(response))
+        .then(plans => setPlans(plans)),
+      getDiscordUsers()
+        .then(response_2 => bodyToJson<DiscordUser[]>(response_2))
+        .then(users => setDiscordUsers(users)),
+    ]);
+  }
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await refresh();
+    };
+    fetchData();
   }, [userData, deviceId]);
 
-
   return (
-    <ModelContext.Provider value={{plans, discordUsers, getUserById}}>
+    <ModelContext.Provider value={{plans, discordUsers, getUserById, refresh}}>
       {children}
     </ModelContext.Provider>
   );
