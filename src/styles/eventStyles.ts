@@ -26,7 +26,7 @@ const eventStyles = (colorScheme: 'light' | 'dark' | undefined | null) => StyleS
     justifyContent: 'center'
   },
   eventCard: {
-    backgroundColor: colorScheme === 'dark' ? '#313535' : '#7e7777',
+    backgroundColor: colorScheme === 'dark' ? '#313535' : '#dcd7d7',
   }
 });
 
