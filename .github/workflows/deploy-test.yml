@@ -83,7 +83,12 @@ jobs:
           APPLE_ISSUER_ID: ${{ secrets.APPLE_ISSUER_ID }}
         run: |
           cd ios
-          xcodebuild -workspace PlannerBot.xcworkspace -scheme PlannerBot -sdk iphoneos -configuration Release archive -archivePath $PWD/build/PlannerBot.xcarchive
+          xcodebuild -workspace PlannerBot.xcworkspace \
+            -scheme PlannerBot \
+            -sdk iphoneos \
+            -configuration Release \
+            -archivePath $PWD/build/PlannerBot.xcarchive \
+            -allowProvisioningUpdates archive
 
       - name: Export IPA
         run: |
