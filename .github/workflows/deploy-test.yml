@@ -65,27 +65,19 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Install CocoaPods
+      - name: Install Fastlane
+        run: gem install fastlane
+
+      - name: Install CocoaPods dependencies
         run: |
           cd ios
           pod install
 
-      - name: Build IOS App
-        uses: yukiarrr/ios-build-action@v1.4.0
-        with:
-          project-path: ios/PlannerBot.xcodeproj
-          p12-base64: ${{ secrets.APPLE_CERT_BASE64 }}
-          mobileprovision-base64: ${{ secrets.APPLE_MOBILE_PROVISION_BASE64 }}
-          code-signing-identity: 'iPhone Distribution'
-          team-id: ${{ secrets.APPLE_TEAM_ID }}
-          certificate-password: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
-          workspace-path: ios/PlannerBot.xcworkspace
-          scheme: PlannerBot
-
-      - name: Upload to TestFlight
-        uses: apple-actions/upload-testflight-build@v1
-        with:
-          app-path: 'ios/build/PlannerBot.ipa'
-          issuer-id: ${{ secrets.APPLE_ISSUER_ID }}
-          api-key-id: ${{ secrets.APPLE_KEY_ID }}
-          api-private-key: ${{ secrets.APPLE_AUTH_KEY }}
+      - name: Build and deploy to TestFlight
+        env:
+          APP_STORE_CONNECT_API_KEY: ${{ secrets.APPLE_AUTH_KEY }}
+          FASTLANE_APPLE_ID: ${{ secrets.FASTLANE_APPLE_ID }}
+          FASTLANE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+        run: |
+          cd ios
+          fastlane beta
