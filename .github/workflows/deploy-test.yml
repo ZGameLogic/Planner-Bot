@@ -1,0 +1,99 @@
+name: Deploy to Internal Testing
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+#  android:
+#    name: Build and Upload Android APK/AAB
+#    runs-on: ubuntu-latest
+#
+#    steps:
+#      - name: Checkout repository
+#        uses: actions/checkout@v4
+#
+#      - name: Set up JDK
+#        uses: actions/setup-java@v3
+#        with:
+#          distribution: 'zulu'
+#          java-version: '17'
+#
+#      - name: Install dependencies
+#        run: |
+#          npm install
+#          cd android && ./gradlew dependencies
+#
+#      - name: Decode Keystore
+#        env:
+#          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+#        run: |
+#          echo "$ANDROID_KEYSTORE_BASE64" | base64 --decode > android/app/my-upload-key.keystore
+#
+#      - name: Build Android Release
+#        env:
+#          SIGNING_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+#          SIGNING_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+#          SIGNING_STORE_PASSWORD: ${{ secrets.ANDROID_STORE_PASSWORD }}
+#        run: |
+#          cd android
+#          ./gradlew bundleRelease
+#
+#      - name: Upload to Google Play Internal Testing
+#        uses: r0adkll/upload-google-play@v1
+#        with:
+#          serviceAccountJson: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
+#          packageName: "com.yourapp.package"
+#          releaseFiles: android/app/build/outputs/bundle/release/app-release.aab
+#          track: internal
+#          status: completed
+
+  ios:
+    name: Build and Upload iOS to TestFlight
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Install CocoaPods
+        run: |
+          cd ios
+          pod install
+
+      - name: Set up authentication
+        env:
+          APPLE_AUTH_KEY: ${{ secrets.APPLE_AUTH_KEY }}
+        run: |
+          echo "$APPLE_AUTH_KEY" | base64 --decode > AuthKey.p8
+
+      - name: Build iOS app
+        env:
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          APPLE_KEY_ID: ${{ secrets.APPLE_KEY_ID }}
+          APPLE_ISSUER_ID: ${{ secrets.APPLE_ISSUER_ID }}
+        run: |
+          cd ios
+          xcodebuild -workspace PlannerBot.xcworkspace -scheme PlannerBot -sdk iphoneos -configuration Release archive -archivePath $PWD/build/PlannerBot.xcarchive
+
+      - name: Export IPA
+        run: |
+          cd ios
+          xcodebuild -exportArchive -archivePath $PWD/build/PlannerBot.xcarchive -exportOptionsPlist exportOptions.plist -exportPath $PWD/build
+
+      - name: Upload to TestFlight
+        uses: apple-actions/upload-testflight-build@v1
+        with:
+          app-path: 'ios/build/PlannerBot.ipa'
+          issuer-id: ${{ secrets.APPLE_ISSUER_ID }}
+          api-key-id: ${{ secrets.APPLE_KEY_ID }}
+          api-private-key: ${{ secrets.APPLE_AUTH_KEY }}
