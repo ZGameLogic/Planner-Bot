@@ -70,30 +70,17 @@ jobs:
           cd ios
           pod install
 
-      - name: Set up authentication
-        env:
-          APPLE_AUTH_KEY: ${{ secrets.APPLE_AUTH_KEY }}
-        run: |
-          echo "$APPLE_AUTH_KEY" | base64 --decode > AuthKey.p8
-
-      - name: Build iOS app
-        env:
-          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
-          APPLE_KEY_ID: ${{ secrets.APPLE_KEY_ID }}
-          APPLE_ISSUER_ID: ${{ secrets.APPLE_ISSUER_ID }}
-        run: |
-          cd ios
-          xcodebuild -workspace PlannerBot.xcworkspace \
-            -scheme PlannerBot \
-            -sdk iphoneos \
-            -configuration Release \
-            -archivePath $PWD/build/PlannerBot.xcarchive \
-            -allowProvisioningUpdates archive
-
-      - name: Export IPA
-        run: |
-          cd ios
-          xcodebuild -exportArchive -archivePath $PWD/build/PlannerBot.xcarchive -exportOptionsPlist exportOptions.plist -exportPath $PWD/build
+      - name: Build IOS App
+        uses: yukiarrr/ios-build-action@v1.4.0
+        with:
+          project-path: ios/PlannerBot.xcodeproj
+          p12-base64: ${{ secrets.APPLE_CERT_BASE64 }}
+          mobileprovision-base64: ${{ secrets.APPLE_MOBILE_PROVISION_BASE64 }}
+          code-signing-identity: 'iPhone Distribution'
+          team-id: ${{ secrets.APPLE_TEAM_ID }}
+          certificate-password: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
+          workspace-path: ios/PlannerBot.xcworkspace
+          scheme: PlannerBot
 
       - name: Upload to TestFlight
         uses: apple-actions/upload-testflight-build@v1
