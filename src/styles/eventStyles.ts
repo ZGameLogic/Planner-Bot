@@ -27,6 +27,9 @@ const eventStyles = (colorScheme: 'light' | 'dark' | undefined | null) => StyleS
   },
   eventCard: {
     backgroundColor: colorScheme === 'dark' ? '#313535' : '#dcd7d7',
+  },
+  eventProgressBar: {
+    paddingBottom: 4
   }
 });
 

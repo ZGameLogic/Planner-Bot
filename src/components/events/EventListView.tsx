@@ -5,7 +5,10 @@ import DiscordProfileIcon from '../DiscordProfileIcon.tsx';
 import { useModel } from '../../hooks/ModelContext.tsx';
 import {eventStyles} from '../../styles/eventStyles.ts';
 import FontAwesome6 from '@react-native-vector-icons/fontawesome6';
-import {statusToColor} from "../../helpers/colors-helper.ts";
+import {statusToColor} from '../../helpers/colors-helper.ts';
+import * as Progress from 'react-native-progress';
+import {getAcceptedCount} from "../../helpers/plan-helper.ts";
+
 
 type EventListViewProps = {
   plan: Plan
@@ -109,6 +112,21 @@ function EventListView({plan}: EventListViewProps): React.JSX.Element {
           />
           <Text style={styles.eventText}>{plan.notes}</Text>
       </View>}
+      {plan.count !== -1 && <>
+        <View style={styles.eventHStack}>
+          <FontAwesome6
+              name="user-check"
+              iconStyle="solid"
+              size={20}
+              color={'purple'}
+          />
+          <Text style={styles.eventText}>{`0/${plan.count} accepted`}</Text>
+        </View>
+        <View style={styles.eventProgressBar}>
+          <Progress.Bar progress={getAcceptedCount(plan) / plan.count} width={null} height={10} color={'purple'} />
+        </View>
+      </>
+      }
       <EventUsers/>
     </View>
   </Card>;
