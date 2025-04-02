@@ -1,9 +1,9 @@
 import React from 'react';
-import { DISCORD_AUTH_URL } from '@env';
 import { WebView } from 'react-native-webview';
 import { Modal } from 'react-native';
 import { useAuth } from '../hooks/AuthContext.tsx';
 import { useConnection } from '../hooks/ConnectionContext.tsx';
+import { config } from '../helpers/Config.ts';
 
 function Login(): React.JSX.Element {
   const { serverConnection } = useConnection();
@@ -22,7 +22,7 @@ function Login(): React.JSX.Element {
     visible={!isAuthing && userData === undefined && (serverConnection !== undefined && serverConnection)}
   >
     <WebView
-      source={{ uri: DISCORD_AUTH_URL }}
+      source={{ uri: config.DISCORD_AUTH_URL }}
       onNavigationStateChange={handleNavigationChange}
     />
   </Modal>;

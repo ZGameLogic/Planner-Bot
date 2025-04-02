@@ -1,13 +1,13 @@
-import { BOT_BASE_URL } from '@env';
+import { config } from '../helpers/Config.ts';
 
 function getDiscordUsers(): Promise<Response> {
-  const url = `${BOT_BASE_URL}/plan/users`;
+  const url = `${config.BOT_BASE_URL}/plan/users`;
 
   return fetch(url, { method: 'GET' });
 }
 
 function getUserEvents(token: string, device: string): Promise<Response> {
-  const url = `${BOT_BASE_URL}/plans`;
+  const url = `${config.BOT_BASE_URL}/plans`;
 
   return fetch(url, {
     method: 'GET',
@@ -20,7 +20,7 @@ function getUserEvents(token: string, device: string): Promise<Response> {
 }
 
 function registerCode(code: String, uuid: String): Promise<Response> {
-  const url = `${BOT_BASE_URL}/auth/login?code=${code}&device=${uuid}`;
+  const url = `${config.BOT_BASE_URL}/auth/login?code=${code}&device=${uuid}`;
 
   return fetch(url, {
     method: 'POST',
@@ -31,7 +31,7 @@ function registerCode(code: String, uuid: String): Promise<Response> {
 }
 
 function relogin(userId: string, token: string, device: string): Promise<Response>{
-  const url = `${BOT_BASE_URL}/auth/relogin?userId=${userId}&token=${token}&device=${device}`;
+  const url = `${config.BOT_BASE_URL}/auth/relogin?userId=${userId}&token=${token}&device=${device}`;
 
   return fetch(url, {
     method: 'POST',
@@ -42,7 +42,7 @@ function relogin(userId: string, token: string, device: string): Promise<Respons
 }
 
 function healthCheck(): Promise<Response>{
-  const url = `${BOT_BASE_URL}/health`;
+  const url = `${config.BOT_BASE_URL}/health`;
 
   return fetch(url, { method: 'GET' });
 }
