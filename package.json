@@ -4,10 +4,12 @@
   "private": true,
   "scripts": {
     "android": "set ENVFILE=.env.android && react-native run-android",
-    "ios": "ENVFILE=.env.local react-native run-ios --simulator=\"iPhone 16 Pro\" --terminal=Terminal",
+    "ios": "ENVFILE=.env.prod react-native run-ios --simulator=\"iPhone 16 Pro\" --terminal=Terminal",
+    "ios-local": "ENVFILE=.env.local react-native run-ios --simulator=\"iPhone 16 Pro\" --terminal=Terminal",
     "lint": "eslint .",
     "start": "react-native start",
-    "test": "jest"
+    "test": "jest",
+    "clear-cache": "react-native start --reset-cache"
   },
   "dependencies": {
     "@react-native-vector-icons/common": "^11.0.0",
