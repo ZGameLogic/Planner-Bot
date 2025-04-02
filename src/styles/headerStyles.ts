@@ -9,9 +9,9 @@ const headerStyles = (colorScheme: 'light' | 'dark' | undefined | null) => Style
     paddingLeft: 10,
     paddingVertical: 15,
     borderBottomWidth: 1,
-    borderBottomColor: '#ccc',
+    borderBottomColor: colorScheme === 'dark'? '#000' : '#fff',
     position: 'relative' as 'relative',
-    backgroundColor: colorScheme === 'dark'? '#272727' : '#fff',
+    backgroundColor: colorScheme === 'dark'? '#000' : '#fff',
   },
   headerText: {
     flex: 1,
