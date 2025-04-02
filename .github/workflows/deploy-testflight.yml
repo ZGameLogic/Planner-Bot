@@ -36,4 +36,4 @@ jobs:
           APPLE_AUTH_KEY: ${{ secrets.APPLE_AUTH_KEY }}
         run: |
           cd ios
-          fastlane beta --verbose --allowProvisioningUpdates
+          bundle exec fastlane beta

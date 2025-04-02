@@ -14,9 +14,7 @@ platform :ios do
       scheme: "PlannerBot",
       export_method: "app-store",
       configuration: "Release",
-      export_options: {
-        signingStyle: "automatic"
-      }
+      xcargs: "-allowProvisioningUpdates"
     )
 
     upload_to_testflight(api_key: api_key)
