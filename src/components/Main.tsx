@@ -1,15 +1,19 @@
 import React from 'react';
 import Login from './Login.tsx';
 import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
-import Header from './Header.tsx';
+import HeaderButtons from './HeaderButtons.tsx';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import EventsList from './events/EventsList.tsx';
 import styles from 'react-native-webview/lib/WebView.styles';
+import {headerStyles} from '../styles/headerStyles.ts';
+import {Appearance} from 'react-native';
 
 const Stack = createNativeStackNavigator();
 
 function Main(): React.JSX.Element {
+  const colorScheme = Appearance.getColorScheme();
+  const hstyles = headerStyles(colorScheme);
 
   return (
     <SafeAreaProvider>
@@ -18,7 +22,11 @@ function Main(): React.JSX.Element {
         <NavigationContainer>
           <Stack.Navigator
             screenOptions={({ route }) => ({
-              header: () => <Header route={route.name}/>,
+              headerStyle: hstyles.header,
+              title: route.name,
+              headerLargeTitle: true,
+              headerTitleStyle: hstyles.headerText,
+              headerRight: () => <HeaderButtons />
             })}
           >
             <Stack.Screen

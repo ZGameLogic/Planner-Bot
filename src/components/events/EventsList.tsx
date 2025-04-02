@@ -15,6 +15,7 @@ function EventsList(): React.JSX.Element {
 
   return (
     <ScrollView
+      contentInsetAdjustmentBehavior='automatic'
       style={{backgroundColor: colorScheme === 'dark' ? 'black' : 'white'}}
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />

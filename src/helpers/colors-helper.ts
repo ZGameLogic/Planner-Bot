@@ -1,3 +1,5 @@
+import {APP_COLOR} from "./constants.ts";
+
 export function statusToColor(status: String, darkMode: boolean): string {
   switch (status) {
     case 'ACCEPTED':
@@ -7,7 +9,7 @@ export function statusToColor(status: String, darkMode: boolean): string {
     case 'WAITLISTED':
       return 'blue';
     case 'FILLINED':
-      return 'purple';
+      return APP_COLOR;
     case 'DECLINED':
       return 'red';
     case 'DECIDING':

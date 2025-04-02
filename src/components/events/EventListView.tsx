@@ -8,6 +8,7 @@ import FontAwesome6 from '@react-native-vector-icons/fontawesome6';
 import {statusToColor} from '../../helpers/colors-helper.ts';
 import * as Progress from 'react-native-progress';
 import {getAcceptedCount} from "../../helpers/plan-helper.ts";
+import {APP_COLOR} from "../../helpers/constants.ts";
 
 
 type EventListViewProps = {
@@ -40,7 +41,7 @@ function EventListView({plan}: EventListViewProps): React.JSX.Element {
             name="address-card"
             iconStyle="regular"
             size={20}
-            color={'purple'}
+            color={APP_COLOR}
           />
           <Text style={styles.eventText}>Invitees</Text>
         </View>
@@ -57,7 +58,7 @@ function EventListView({plan}: EventListViewProps): React.JSX.Element {
             name="chevron-up"
             iconStyle="solid"
             size={20}
-            color={'purple'}
+            color={APP_COLOR}
           />
         </TouchableOpacity>
       </>;
@@ -76,7 +77,7 @@ function EventListView({plan}: EventListViewProps): React.JSX.Element {
             name="chevron-down"
             iconStyle="solid"
             size={20}
-            color={'purple'}
+            color={APP_COLOR}
           />
         </TouchableOpacity>
       </>
@@ -99,7 +100,7 @@ function EventListView({plan}: EventListViewProps): React.JSX.Element {
           name="clock"
           iconStyle="regular"
           size={20}
-          color={'purple'}
+          color={APP_COLOR}
         />
         <Text style={styles.eventText}>{plan["start time"] ?? 'Poll'}</Text>
       </View>
@@ -108,7 +109,7 @@ function EventListView({plan}: EventListViewProps): React.JSX.Element {
               name="note-sticky"
               iconStyle="regular"
               size={20}
-              color={'purple'}
+              color={APP_COLOR}
           />
           <Text style={styles.eventText}>{plan.notes}</Text>
       </View>}
@@ -118,12 +119,12 @@ function EventListView({plan}: EventListViewProps): React.JSX.Element {
               name="user-check"
               iconStyle="solid"
               size={20}
-              color={'purple'}
+              color={APP_COLOR}
           />
           <Text style={styles.eventText}>{`0/${plan.count} accepted`}</Text>
         </View>
         <View style={styles.eventProgressBar}>
-          <Progress.Bar progress={getAcceptedCount(plan) / plan.count} width={null} height={10} color={'purple'} />
+          <Progress.Bar progress={getAcceptedCount(plan) / plan.count} width={null} height={10} color={APP_COLOR} />
         </View>
       </>
       }

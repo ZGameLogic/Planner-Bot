@@ -1,6 +1,7 @@
 import React from 'react';
 import { Image } from 'react-native';
 import FontAwesome6 from "@react-native-vector-icons/fontawesome6";
+import {APP_COLOR} from "../helpers/constants.ts";
 
 interface DiscordProfileIconProps {
   size: number
@@ -15,7 +16,7 @@ function DiscordProfileIcon({size, avatar, id}: DiscordProfileIconProps): React.
       name="user"
       iconStyle="regular"
       size={size}
-      color={'purple'}
+      color={APP_COLOR}
     />
   }
   return <Image

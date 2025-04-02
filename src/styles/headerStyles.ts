@@ -27,8 +27,7 @@ const headerStyles = (colorScheme: 'light' | 'dark' | undefined | null) => Style
     zIndex: 2,
   },
   headerButton: {
-    marginLeft: 10,
-    paddingRight: 10,
+    marginRight: 15,
   }
 });
 
