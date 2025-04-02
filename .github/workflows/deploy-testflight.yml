@@ -31,9 +31,9 @@ jobs:
 
       - name: Run Fastlane
         env:
-          APP_STORE_KEY_ID: ${{ secrets.APPLE_KEY_ID }}
-          APP_STORE_ISSUER_ID: ${{ secrets.APPLE_ISSUER_ID }}
-          APP_STORE_API_KEY: ${{ secrets.APPLE_AUTH_KEY }}
+          APPLE_KEY_ID: ${{ secrets.APPLE_KEY_ID }}
+          APPLE_ISSUER_ID: ${{ secrets.APPLE_ISSUER_ID }}
+          APPLE_AUTH_KEY: ${{ secrets.APPLE_AUTH_KEY }}
         run: |
           cd ios
           fastlane beta
