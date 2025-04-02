@@ -37,3 +37,8 @@ jobs:
         run: |
           cd ios
           fastlane beta
+
+      # Step 1: Print Xcode Logs if Fastlane Fails
+      - name: Print Xcode Logs
+        if: failure()
+        run: cat /Users/runner/Library/Logs/gym/PlannerBot-PlannerBot.log
