@@ -1,10 +1,10 @@
 import React from 'react';
-import {Appearance, TouchableOpacity, View} from 'react-native';
+import { Appearance, TouchableOpacity, View } from 'react-native';
 import { headerStyles } from '../styles/headerStyles';
 import FontAwesome6 from '@react-native-vector-icons/fontawesome6';
 import DiscordProfileIcon from './DiscordProfileIcon';
 import { useAuth } from '../hooks/AuthContext';
-import {APP_COLOR} from "../helpers/constants";
+import { APP_COLOR } from '../helpers/constants';
 
 function HeaderButtons(): React.JSX.Element {
   const { userData } = useAuth();
@@ -17,7 +17,7 @@ function HeaderButtons(): React.JSX.Element {
   }
 
   return (
-    <View style={{flexDirection: 'row'}}>
+    <View style={{ flexDirection: 'row' }}>
       <TouchableOpacity onPress={handlePress} style={styles.headerButton}>
         <DiscordProfileIcon
           size={35}

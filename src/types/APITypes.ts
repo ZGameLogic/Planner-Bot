@@ -15,24 +15,24 @@ type User = {
   id: string
 }
 
-type DiscordUser = {
+export type DiscordUser = {
   username: string
   avatar: string
   id: bigint
 }
 
-type DiscordAuth = {
+export type DiscordAuth = {
   token: Token
   user: User
 }
 
-type EventUser = {
+export type EventUser = {
   'user id': bigint
   status: 'DECIDING' | 'ACCEPTED' | 'MAYBED' | 'WAITLISTED' | 'FILLINED' | 'DECLINED'
   'needs fill in': boolean
 }
 
-type Plan = {
+export type Plan = {
   id: bigint
   title: string
   notes: string

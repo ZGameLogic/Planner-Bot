@@ -3,20 +3,20 @@ import { BOT_BASE_URL } from '@env';
 function getDiscordUsers(): Promise<Response> {
   const url = `${BOT_BASE_URL}/plan/users`;
 
-  return fetch(url, {method: 'GET'});
+  return fetch(url, { method: 'GET' });
 }
 
 function getUserEvents(token: string, device: string): Promise<Response> {
-  const url = `${BOT_BASE_URL}/plans`
+  const url = `${BOT_BASE_URL}/plans`;
 
   return fetch(url, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
       'token': token,
-      'device': device
-    }
-  })
+      'device': device,
+    },
+  });
 }
 
 function registerCode(code: String, uuid: String): Promise<Response> {

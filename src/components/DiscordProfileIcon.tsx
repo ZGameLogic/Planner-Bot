@@ -1,7 +1,7 @@
 import React from 'react';
 import { Image } from 'react-native';
-import FontAwesome6 from "@react-native-vector-icons/fontawesome6";
-import {APP_COLOR} from "../helpers/constants.ts";
+import FontAwesome6 from '@react-native-vector-icons/fontawesome6';
+import { APP_COLOR } from '../helpers/constants.ts';
 
 interface DiscordProfileIconProps {
   size: number
@@ -9,7 +9,7 @@ interface DiscordProfileIconProps {
   id: string | bigint
 }
 
-function DiscordProfileIcon({size, avatar, id}: DiscordProfileIconProps): React.JSX.Element {
+function DiscordProfileIcon({ size, avatar, id }: DiscordProfileIconProps): React.JSX.Element {
   const uri = `https://cdn.discordapp.com/avatars/${id}/${avatar}.png`;
   if(!avatar) {
     return <FontAwesome6
@@ -17,7 +17,7 @@ function DiscordProfileIcon({size, avatar, id}: DiscordProfileIconProps): React.
       iconStyle="regular"
       size={size}
       color={APP_COLOR}
-    />
+    />;
   }
   return <Image
     source={{ uri: uri }}

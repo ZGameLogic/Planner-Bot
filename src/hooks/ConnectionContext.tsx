@@ -1,5 +1,5 @@
-import {createContext, PropsWithChildren, useContext, useEffect, useState} from 'react';
-import {healthCheck} from '../services/Bot Service.ts';
+import { createContext, PropsWithChildren, useContext, useEffect, useState } from 'react';
+import { healthCheck } from '../services/Bot Service.ts';
 
 export type ConnectionContextType = {
   serverConnection: boolean | undefined,
@@ -19,7 +19,7 @@ export const ConnectionProvider = ({ children } : PropsWithChildren) => {
   }, []);
 
   return (
-    <ConnectionContext.Provider value={{serverConnection}}>
+    <ConnectionContext.Provider value={{ serverConnection }}>
       {children}
     </ConnectionContext.Provider>
   );

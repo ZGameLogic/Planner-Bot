@@ -1,7 +1,8 @@
-import {createContext, PropsWithChildren, useContext, useEffect, useState} from 'react';
-import {useAuth} from './AuthContext.tsx';
-import {getDiscordUsers, getUserEvents} from '../services/Bot Service.ts';
-import {bodyToJson} from '../helpers/format-helper.ts';
+import { createContext, PropsWithChildren, useContext, useEffect, useState } from 'react';
+import { useAuth } from './AuthContext.tsx';
+import { getDiscordUsers, getUserEvents } from '../services/Bot Service.ts';
+import { bodyToJson } from '../helpers/format-helper.ts';
+import { DiscordUser, Plan } from '../types/APITypes.ts';
 
 export type ModelContextType = {
   plans: Plan[]
@@ -14,7 +15,7 @@ const ModelContext = createContext<ModelContextType>({
   plans: [],
   discordUsers: [],
   getUserById: () => {},
-  refresh: () => {}
+  refresh: () => {},
 });
 
 export const ModelProvider = ({ children } : PropsWithChildren) => {
@@ -34,7 +35,7 @@ export const ModelProvider = ({ children } : PropsWithChildren) => {
     await Promise.all([
       getUserEvents(userData.token.access_token, deviceId)
         .then(response => bodyToJson<Plan[]>(response))
-        .then(plans => setPlans(plans)),
+        .then(ps => setPlans(ps)),
       getDiscordUsers()
         .then(response_2 => bodyToJson<DiscordUser[]>(response_2))
         .then(users => setDiscordUsers(users)),
@@ -49,7 +50,7 @@ export const ModelProvider = ({ children } : PropsWithChildren) => {
   }, [userData, deviceId]);
 
   return (
-    <ModelContext.Provider value={{plans, discordUsers, getUserById, refresh}}>
+    <ModelContext.Provider value={{ plans, discordUsers, getUserById, refresh }}>
       {children}
     </ModelContext.Provider>
   );

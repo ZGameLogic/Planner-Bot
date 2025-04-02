@@ -1,9 +1,10 @@
 import { createContext, PropsWithChildren, useContext, useEffect, useState } from 'react';
-import {registerCode, relogin} from '../services/Bot Service.ts';
+import { registerCode, relogin } from '../services/Bot Service.ts';
 import DeviceInfo from 'react-native-device-info';
 import { setGenericPassword, resetGenericPassword, getGenericPassword } from 'react-native-keychain';
 import { useConnection } from './ConnectionContext.tsx';
-import {bodyToJson} from "../helpers/format-helper.ts";
+import { bodyToJson } from '../helpers/format-helper.ts';
+import { DiscordAuth } from '../types/APITypes';
 
 export type AuthContextType = {
   userData: DiscordAuth | undefined,
@@ -62,7 +63,7 @@ export const AuthProvider = ({ children } : PropsWithChildren) => {
   // set and remove token when the state is updated
   useEffect(() => {
     if(userData) {
-      setGenericPassword(String(userData.user.id), userData.token.access_token)
+      setGenericPassword(String(userData.user.id), userData.token.access_token);
     } else {
       if(initLoginFailed) {
         resetGenericPassword();
@@ -89,7 +90,7 @@ export const AuthProvider = ({ children } : PropsWithChildren) => {
   }
 
   return (
-    <AuthContext.Provider value={{userData, logout, login, isAuthing, deviceId}}>
+    <AuthContext.Provider value={{ userData, logout, login, isAuthing, deviceId }}>
       {children}
     </AuthContext.Provider>
   );

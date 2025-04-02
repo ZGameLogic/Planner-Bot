@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import { useModel } from '../../hooks/ModelContext.tsx';
-import {ScrollView, RefreshControl, Appearance} from 'react-native';
+import { ScrollView, RefreshControl, Appearance } from 'react-native';
 import EventListView from './EventListView.tsx';
 
 function EventsList(): React.JSX.Element {
@@ -15,8 +15,8 @@ function EventsList(): React.JSX.Element {
 
   return (
     <ScrollView
-      contentInsetAdjustmentBehavior='automatic'
-      style={{backgroundColor: colorScheme === 'dark' ? 'black' : 'white'}}
+      contentInsetAdjustmentBehavior="automatic"
+      style={{ backgroundColor: colorScheme === 'dark' ? 'black' : 'white' }}
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }

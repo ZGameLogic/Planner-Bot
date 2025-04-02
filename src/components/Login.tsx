@@ -3,7 +3,7 @@ import { DISCORD_AUTH_URL } from '@env';
 import { WebView } from 'react-native-webview';
 import { Modal } from 'react-native';
 import { useAuth } from '../hooks/AuthContext.tsx';
-import { useConnection } from "../hooks/ConnectionContext.tsx";
+import { useConnection } from '../hooks/ConnectionContext.tsx';
 
 function Login(): React.JSX.Element {
   const { serverConnection } = useConnection();

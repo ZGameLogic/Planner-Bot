@@ -9,15 +9,15 @@ const headerStyles = (colorScheme: 'light' | 'dark' | undefined | null) => Style
     paddingLeft: 10,
     paddingVertical: 15,
     borderBottomWidth: 1,
-    borderBottomColor: colorScheme === 'dark'? '#000' : '#fff',
+    borderBottomColor: colorScheme === 'dark' ? '#000' : '#fff',
     position: 'relative' as 'relative',
-    backgroundColor: colorScheme === 'dark'? '#000' : '#fff',
+    backgroundColor: colorScheme === 'dark' ? '#000' : '#fff',
   },
   headerText: {
     flex: 1,
     textAlign: 'center' as 'center',
     fontSize: 20,
-    color: colorScheme === 'dark'? '#fff': '#000',
+    color: colorScheme === 'dark' ? '#fff' : '#000',
     zIndex: 1,
   },
   headerButtons: {
@@ -28,7 +28,7 @@ const headerStyles = (colorScheme: 'light' | 'dark' | undefined | null) => Style
   },
   headerButton: {
     marginRight: 15,
-  }
+  },
 });
 
 export { headerStyles };
