@@ -7,7 +7,7 @@ import { eventStyles } from '../../styles/eventStyles.ts';
 import FontAwesome6 from '@react-native-vector-icons/fontawesome6';
 import { statusToColor } from '../../helpers/colors-helper.ts';
 import * as Progress from 'react-native-progress';
-import { getAcceptedCount } from '../../helpers/plan-helper.ts';
+import { compareUsers, getAcceptedCount } from '../../helpers/plan-helper.ts';
 import { APP_COLOR } from '../../helpers/constants.ts';
 import { DiscordUser, EventUser, Plan } from '../../types/APITypes.ts';
 
@@ -46,7 +46,7 @@ function EventListView({ plan }: EventListViewProps): React.JSX.Element {
           />
           <Text style={styles.eventText}>Invitees</Text>
         </View>
-        {users.map((user: EventUser) => {
+        {users.sort(compareUsers).map((user: EventUser) => {
           const dUser = getUserById(user['user id']);
 
           return <View key={dUser.id} style={styles.eventHStack}>
@@ -66,7 +66,7 @@ function EventListView({ plan }: EventListViewProps): React.JSX.Element {
     } else {
       return <>
         <ScrollView horizontal={true}>
-          {users.map(user => {
+          {users.filter(user => user.status === 'ACCEPTED').map(user => {
             const dUser = getUserById(user['user id']);
             return <View key={dUser.id} style={styles.eventUserIcon}>
               <DiscordProfileIcon size={20} avatar={dUser.avatar} id={dUser.id} />
