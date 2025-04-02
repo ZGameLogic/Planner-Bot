@@ -13,7 +13,10 @@ platform :ios do
     build_app(
       scheme: "PlannerBot",
       export_method: "app-store",
-      configuration: "Release"
+      configuration: "Release",
+      export_options: {
+        signingStyle: "automatic"
+      }
     )
 
     upload_to_testflight(api_key: api_key)
