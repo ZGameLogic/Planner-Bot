@@ -19,7 +19,7 @@ function getUserEvents(token: string, device: string): Promise<Response> {
   });
 }
 
-function registerCode(code: String, uuid: String): Promise<Response> {
+function registerCode(code: string, uuid: string): Promise<Response> {
   const url = `${config.BOT_BASE_URL}/auth/login?code=${code}&device=${uuid}`;
 
   return fetch(url, {

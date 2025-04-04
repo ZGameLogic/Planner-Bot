@@ -1,4 +1,4 @@
-name: Build and Deploy iOS App to TestFlight
+name: Build and Deploy iOS
 
 on:
   push:
@@ -8,32 +8,36 @@ on:
 jobs:
   build:
     runs-on: macos-latest
-
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
+      - name: Set Up Node.js
+        uses: actions/setup-node@v3
         with:
           node-version: 18
 
       - name: Install Dependencies
-        run: npm install
+        run: yarn install
 
-      - name: Install CocoaPods
-        run: |
-          cd ios
-          pod install
-
-      - name: Set up Fastlane
+      - name: Install Fastlane
         run: gem install fastlane
 
-      - name: Run Fastlane
-        env:
-          APPLE_KEY_ID: ${{ secrets.APPLE_KEY_ID }}
-          APPLE_ISSUER_ID: ${{ secrets.APPLE_ISSUER_ID }}
-          APPLE_AUTH_KEY: ${{ secrets.APPLE_AUTH_KEY }}
+      - name: Decode and Setup Signing Certificate
         run: |
-          cd ios
-          bundle exec fastlane beta
+          echo "$SIGNING_CERTIFICATE" | base64 --decode > certificate.p12
+          security import certificate.p12 -P "$SIGNING_CERTIFICATE_PASSWORD" -A
+
+      - name: Decode and Setup Provisioning Profile
+        run: |
+          echo "$PROVISIONING_PROFILE" | base64 --decode > provisioning_profile.mobileprovision
+          mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
+          mv provisioning_profile.mobileprovision ~/Library/MobileDevice/Provisioning\ Profiles/
+
+      - name: Build and Upload to TestFlight
+        run: fastlane ios beta
+        env:
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APP_SPECIFIC_PASSWORD: ${{ secrets.APP_SPECIFIC_PASSWORD }}
+          DEVELOPER_TEAM_ID: ${{ secrets.DEVELOPER_TEAM_ID }}
+          SIGNING_CERTIFICATE_PASSWORD: ${{ secrets.SIGNING_CERTIFICATE_PASSWORD }}
