@@ -3,7 +3,8 @@
   "version": "0.0.2",
   "private": true,
   "scripts": {
-    "android": "react-native run-android",
+    "android": "react-native run-android --terminal=Terminal",
+    "android build": "cd android && ./gradlew assembleRelease",
     "ios": "react-native run-ios --simulator=\"iPhone 16 Pro\" --terminal=Terminal",
     "lint": "eslint .",
     "start": "react-native start",
