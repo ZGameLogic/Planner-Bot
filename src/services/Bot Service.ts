@@ -30,7 +30,7 @@ function registerCode(code: string, uuid: string): Promise<Response> {
   });
 }
 
-function relogin(userId: string, token: string, device: string): Promise<Response>{
+function relogin(userId: string, token: string, device: string): Promise<Response> {
   const url = `${config.BOT_BASE_URL}/auth/relogin?userId=${userId}&token=${token}&device=${device}`;
 
   return fetch(url, {
@@ -41,7 +41,7 @@ function relogin(userId: string, token: string, device: string): Promise<Respons
   });
 }
 
-function healthCheck(): Promise<Response>{
+function healthCheck(): Promise<Response> {
   const url = `${config.BOT_BASE_URL}/health`;
 
   return fetch(url, { method: 'GET' });
