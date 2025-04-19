@@ -10,7 +10,7 @@ import * as Progress from 'react-native-progress';
 import { compareUsers, getAcceptedCount } from '../../helpers/plan-helper.ts';
 import { APP_COLOR } from '../../helpers/constants.ts';
 import { DiscordUser, EventUser, Plan } from '../../types/APITypes.ts';
-
+import EventActions from './EventActions.tsx';
 
 type EventListViewProps = {
   plan: Plan
@@ -130,6 +130,7 @@ function EventListView({ plan }: EventListViewProps): React.JSX.Element {
       </>
       }
       <EventUsers/>
+      <EventActions actions={plan.actions}/>
     </View>
   </Card>;
 }

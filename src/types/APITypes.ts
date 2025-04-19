@@ -32,6 +32,19 @@ export type EventUser = {
   'needs fill in': boolean
 }
 
+export type PlanAction =
+  | 'ACCEPT'
+  | 'MAYBE'
+  | 'DENY'
+  | 'DROPOUT'
+  | 'WAITLIST'
+  | 'FILLIN'
+  | 'REQUEST_FILLIN'
+  | 'EDIT_EVENT'
+  | 'DELETE'
+  | 'SEND_MESSAGE'
+  | 'SCHEDULE_REMINDER';
+
 export type Plan = {
   id: bigint
   title: string
@@ -40,4 +53,5 @@ export type Plan = {
   count: number
   'author id': bigint
   invitees: [EventUser]
+  actions: [PlanAction]
 }
